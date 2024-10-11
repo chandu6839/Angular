@@ -4,6 +4,7 @@ import { ApolloTestingModule, ApolloTestingController } from 'apollo-angular/tes
 import { AppComponent } from './app.component';
 import { GraphQLService } from './services/graphql.service';
 import { gql } from "apollo-angular";
+import { FormsModule } from '@angular/forms';
 
 describe('AppComponent', () => {
   let service: GraphQLService;
@@ -13,7 +14,8 @@ describe('AppComponent', () => {
     await TestBed.configureTestingModule({
       imports: [
         RouterTestingModule,
-        ApolloTestingModule
+        ApolloTestingModule,
+        FormsModule
       ],
       providers: [GraphQLService],
       declarations: [
@@ -39,8 +41,8 @@ describe('AppComponent', () => {
   it('should render h2 text as', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
-    // const compiled = fixture.nativeElement as HTMLElement;
-    // expect(compiled.querySelector('h2')?.textContent).toContain('angular-graphql-app Users');
+    const compiled = fixture.nativeElement as HTMLElement;
+    expect(compiled.querySelector('h2')?.textContent).toContain('angular-graphql-app Users');
   });
   
   it('should fetch users', () => {

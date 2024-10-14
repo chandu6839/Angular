@@ -42,7 +42,7 @@ describe('AppComponent', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('h2')?.textContent).toContain('angular-graphql-app Users');
+    expect(compiled.querySelector('h2')?.textContent).toContain('Angular-graphql-app Users');
   });
   
   it('should fetch users', () => {

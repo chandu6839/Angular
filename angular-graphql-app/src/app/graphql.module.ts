@@ -11,7 +11,7 @@ import { HttpClientModule } from '@angular/common/http';
             provide: APOLLO_OPTIONS,
             useFactory: (httpLink: HttpLink) => ({
                     cache: new InMemoryCache(),
-                    link: httpLink.create({uri: 'http://localhost:4000/graphql'})
+                    link: httpLink.create({uri: 'http://localhost:4000/graphQl'})
             }),
             deps: [HttpLink],
         }

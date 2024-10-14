@@ -1,13 +1,26 @@
 <div>
-  <h2 class="content">{{title}} Users</h2>
   <ul>
-    <li *ngFor="let user of users">{{user.name}}-{{user.email}}</li>
+    <h6 class="content">{{title}} Users</h6>
+    <li *ngFor="let user of users">{{user.name}}-{{user.email}}
+      <button (click)="getUser(user._id)">
+        <mat-icon>edit</mat-icon>
+      </button>
+      <button (click)="deleteUser(user._id)">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </li>
   </ul>
   <div>
-    <h6>Add New User</h6>
-    <input [(ngModel)]="newUser.name" placeholder="Name" />
-    <input [(ngModel)]="newUser.email" placeholder="Email" />
-    <button (click)="addUser()">Add User</button>
+    <h6>{{btnTitle}} User</h6>
+    <input [(ngModel)]="updatedUser.name" placeholder="Name" />
+    <input [(ngModel)]="updatedUser.email" placeholder="Email" />
+    @if (btnTitle === "Add New") {
+      <button (click)="addUser()">Add User</button>
+    } @else{
+      <button (click)="updateUser()">Update User</button><br/>
+      <button (click)="changeText()">click to Add New User</button>
+    }
   </div>
+
 </div>
 <router-outlet></router-outlet>

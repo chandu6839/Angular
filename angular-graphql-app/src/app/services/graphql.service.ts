@@ -14,24 +14,66 @@ export class GraphQLService{
             query: gql`
             query {
                 users {
-                    id,
+                    _id,
                     name,
                     email
                 }
             }`,
         });
     }
+    //Query for fetching user
+    getUser(_id: String): Observable<any> {
+        return this.apollo.query({
+            query: gql`
+            query user($_id: String!){
+                user(_id: $_id) {
+                    _id
+                    name,
+                    email
+                }
+            }`,
+            variables: {_id}
+        });
+    }
+
     //Muttation for adding user
-    addUser(name: string, email: string): Observable<any> {
+    addUser(name: String, email: String): Observable<any> {
         return this.apollo.mutate({
             mutation: gql`
             mutation addUser($name: String!, $email: String!) {
                 addUser(name: $name, email: $email){
-                    id,
-                    name
+                    _id,
+                    name,
+                    email
                 }
             }`,
             variables: {name, email}
         });
     }
+    deleteUser(_id: String): Observable<any> {
+        return this.apollo.mutate({
+            mutation: gql`
+            mutation deleteUser($_id: String!) {
+                deleteUser(_id: $_id) {
+                    _id
+                }
+            }`,
+            variables: {_id}
+        });
+    }
+    updateUser(_id: String, name: String, email: String): Observable<any> {
+        return this.apollo.mutate({
+            mutation: gql`
+                mutation updateUser($_id: String!, $name: String!, $email: String!) {
+                    updateUser(_id: $_id, name: $name, email: $email) {
+                        _id,
+                        name,
+                        email
+                    }
+                }
+            `,
+            variables: {_id, name, email}
+        });
+    }
+
  }

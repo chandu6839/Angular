@@ -29,16 +29,9 @@ const RootQuery = new GraphQLObjectType({
     },
     user: {
       type: UserType,
-      args: { id: { type: GraphQLString } },
-      resolve(parent, args) {
-        return User.findById(args._id);
-      },
-    },
-    deleteUser: {
-      type: UserType,
       args: { _id: { type: GraphQLString } },
       resolve(parent, args) {
-        return User.findByIdAndDelete(args._id);
+        return User.findById(args._id);
       },
     },
   },
@@ -61,12 +54,37 @@ const Mutation = new GraphQLObjectType({
             throw new Error("Email already in use.");
           }
           const user = new User({
+            id: Math.random().toString(),
             name: args.name,
             email: args.email,
           });
 
           return user.save();
         });
+      },
+    },
+    addUser: {
+      type: UserType,
+      args: {
+        name: { type: GraphQLString },
+        email: { type: GraphQLString },
+      },
+      resolve(parent, args) {
+        // Ensure unique email
+        const user = new User({
+          id: Math.random().toString(),
+          name: args.name,
+          email: args.email,
+        });
+
+        return user.save();
+      },
+    },
+    deleteUser: {
+      type: UserType,
+      args: { _id: { type: GraphQLString } },
+      resolve(parent, args) {
+        return User.findByIdAndDelete(args._id);
       },
     },
     updateUser: {
@@ -76,14 +94,12 @@ const Mutation = new GraphQLObjectType({
         name: { type: GraphQLString },
         email: { type: GraphQLString },
       },
-      updateUser: (_, { _id, name, email }) => {
-        const user = find(users, { id: _id });
-        if (!user) {
-          throw new Error(`Couldn’t find user with id ${_id}`);
-        }
-        user.name = name;
-        user.email = email;
-        return user;
+      resolve(parent, args) {
+        return User.findByIdAndUpdate(
+          args._id,
+          { name: args.name, email: args.email },
+          { new: true } // Return the updated document
+        );
       },
     },
   },

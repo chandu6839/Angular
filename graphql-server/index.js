@@ -4,18 +4,21 @@ const { graphqlHTTP } = require("express-graphql");
 
 //const { typeDefs, resolvers } = require("./schema");
 const schema = require("./mogooseSchema");
+const cors = require("cors");
 
 require("./db");
 
 async function startServer() {
   const app = express();
-  //   const server = new ApolloServer({ typeDefs, resolvers });
-  //   await server.start();
-  //   server.applyMiddleware({ app });
+  app.use(cors());
 
-  //   app.get("/", (req, res) => {
-  //     res.send("welcome");
-  //   });
+  // const server = new ApolloServer(schema);
+  // await server.start();
+  // server.applyMiddleware({ app });
+
+  // app.get("/", (req, res) => {
+  //   res.send("welcome");
+  // });
   app.use(
     "/graphql",
     graphqlHTTP({
